@@ -10,38 +10,52 @@ namespace CPE200Lab1
     {
         public string Process(string str)
         {
-			Stack<string> temp = new Stack<string>();
-			string[] parts = str.Split(' ');
-			bool beforeOperate = false;
+				Stack<string> temp = new Stack<string>();
+				string[] parts = str.Split(' ');
+				bool beforeOperate = false;
 
-			foreach(string num in parts)
-			{
-				if (isNumber(num))
+				foreach (string num in parts)
 				{
-					temp.Push(num);
-					
-				}
-				if (isOperator(num))
-				{
-					string first, second;
-					if (temp.Count < 2) return "E";
-					second = temp.Pop();
-					first = temp.Pop();
-					temp.Push(calculate(num, first, second));
-					beforeOperate = true;
-				}
-				if (is_exOperator(num))
-				{
-					string first;
-					if (temp.Count < 1) return "E";
-					first = temp.Pop();
-					temp.Push(unaryCalculate(num, first));
-					beforeOperate = true;
-				}
-			}
-			if(temp.Count > 1||beforeOperate == false) return "E";
-			return temp.Pop();
+					if (isNumber(num))
+					{
+						temp.Push(num);
 
+					}
+					if (isOperator(num))
+					{
+						string first, second;
+						try
+						{
+							second = temp.Pop();
+							first = temp.Pop();
+						}
+						catch(InvalidOperationException ex)
+						{
+							Console.WriteLine(ex);
+							return "E";
+						}
+						
+						temp.Push(calculate(num, first, second));
+						beforeOperate = true;
+					}
+					if (is_exOperator(num))
+					{
+						string first;
+						try
+						{
+							first = temp.Pop();
+						}
+						catch(InvalidOperationException ex)
+						{
+							Console.WriteLine(ex);
+							return "E";
+						}
+						temp.Push(unaryCalculate(num, first));
+						beforeOperate = true;
+					}
+				}
+				if (temp.Count > 1 || beforeOperate == false) return "E";
+				return temp.Pop();
 		}
 	}
 }
