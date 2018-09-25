@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CPE200Lab1
 {
-    public class RPNCalculatorEngine:CalculatorEngine
+    public class RPNCalculatorEngine : TheCalculatorEngine
     {
-        public string Process(string str)
+		protected Stack<string> myStack = new Stack<string>();
+		public string calculate(string str)
         {
-			Stack<string> temp = new Stack<string>();
 			string[] parts = str.Split(' ');
 			bool beforeOperate = false;
 
@@ -18,29 +18,29 @@ namespace CPE200Lab1
 			{
 				if (isNumber(num))
 				{
-					temp.Push(num);
+					myStack.Push(num);
 					
 				}
 				if (isOperator(num))
 				{
 					string first, second;
-					if (temp.Count < 2) return "E";
-					second = temp.Pop();
-					first = temp.Pop();
-					temp.Push(calculate(num, first, second));
+					if (myStack.Count < 2) return "E";
+					second = myStack.Pop();
+					first = myStack.Pop();
+					myStack.Push(calculate(num, first, second));
 					beforeOperate = true;
 				}
 				if (is_exOperator(num))
 				{
 					string first;
-					if (temp.Count < 1) return "E";
-					first = temp.Pop();
-					temp.Push(unaryCalculate(num, first));
+					if (myStack.Count < 1) return "E";
+					first = myStack.Pop();
+					myStack.Push(calculate(num, first));
 					beforeOperate = true;
 				}
 			}
-			if(temp.Count > 1||beforeOperate == false) return "E";
-			return temp.Pop();
+			if(myStack.Count > 1||beforeOperate == false) return "E";
+			return myStack.Pop();
 
 		}
 	}
