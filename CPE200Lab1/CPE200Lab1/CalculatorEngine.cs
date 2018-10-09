@@ -8,6 +8,11 @@ namespace CPE200Lab1
 {
     public class CalculatorEngine
     {
+		/// <remark>
+		/// Check string is number.
+		/// </remark>
+		/// <param name="str"></param>
+		/// <returns></returns>
         protected bool isNumber(string str)
         {
             double retNum;
@@ -26,6 +31,11 @@ namespace CPE200Lab1
             }
             return false;
         }
+		/// <remark>
+		/// Split the srting to be part.
+		/// </remark>
+		/// <param name="str"></param>
+		/// <returns></returns>
 
 		protected bool is_exOperator(string str)
 		{
@@ -51,6 +61,13 @@ namespace CPE200Lab1
             }
 
         }
+		/// <summary>
+		/// Calculate root percent and one over x.
+		/// </summary>
+		/// <param name="operate"></param>
+		/// <param name="operand"></param>
+		/// <param name="maxOutputSize"></param>
+		/// <returns></returns>
         public string unaryCalculate(string operate, string operand, int maxOutputSize = 8)
         {
             switch (operate)
